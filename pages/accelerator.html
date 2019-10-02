@@ -29,32 +29,32 @@
 
 		<script>
 			var watchId = null;
-			
+
 			mui.plusReady(function() {
 				getAcc();
 			});
-			
-			$("#btnGetAcc").bind("tap", function(){
+
+			$("#btnGetAcc").bind("tap", function() {
 				getAcc();
 			});
-			$("#btnWatchAcc").bind("tap", function(){
+			$("#btnWatchAcc").bind("tap", function() {
 				watchAcc();
 			});
-			$("#btnStopWatch").bind("tap", function(){
+			$("#btnStopWatch").bind("tap", function() {
 				clearWatch(watchId);
 			});
 
 			function getAcc() {
 				plus.accelerometer.getCurrentAcceleration(function(a) {
-					alert("Acceleration\nx: " + a.xAxis + "\ny: " + a.yAxis + "\nz: " + a.zAxis);
+					$("#info").text(`x: ${a.xAxis} \n y: ${a.yAxis} \n z: ${a.zAxis}`);
 				}, function(e) {
-					alert("code: " + e.code + "\nmessage: " + e.message);
+					console.log(`code: ${e.code}, message: ${e.message}`);
 				});
 			}
 
 			function watchAcc() {
 				watchId = plus.accelerometer.watchAcceleration(function(a) {
-					$("#info").text("Acceleration\nx: " + a.xAxis + "\ny: " + a.yAxis + "\nz: " + a.zAxis);
+					$("#info").text(`x: ${a.xAxis} \n y: ${a.yAxis} \n z: ${a.zAxis}`);
 				}, function(e) {
 					console.log(`code: ${e.code}, message: ${e.message}`);
 				}, {
@@ -65,6 +65,6 @@
 			function clearWatch(watchId) {
 				plus.accelerometer.clearWatch(watchId);
 			}
-		</script> 
+		</script>
 	</body>
 </html>

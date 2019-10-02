@@ -25,7 +25,7 @@
 			</ul>
 
 			<ul>调用接口
-				<li>即时获取接口
+				<li>即时获取
 					<ul>getCurrentAcceleration
 						<li>void plus.accelerometer.getCurrentAcceleration(successCB, errorCB)</li>
 					</ul>
@@ -43,51 +43,139 @@
 				</li>
 			</ul>
 		</div>
-		<h3><a href="./pages/accelerator.html"></a>手机录音和播放</h3>
+
+		<h3><a href="./pages/audio.html">手机录音和播放</a></h3>
+		<div>
+			Audio 模块用于提供音频的录制和播放功能，可以调用系统的麦克风设备进行录音操作，也可以调用系统的扬声器设备播放音频文件。
+			<ul>
+				应用场景
+				<li>音频录制</li>
+				<li>语音聊天</li>
+				<li>语音留言</li>
+				<li>音频播放</li>
+			</ul>
+			<ul>调用接口
+				<li>对象
+					<ul>录音
+						<li>AudioRecorder
+							<ul>
+								<li>void recorder.record(option, successCB, errorCB)
+									<ul>
+										<li>option:{filename:"_doc/audio/"}</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+					<ul>播放
+						<li>AudioPlayer
+							<ul>
+								<li>void play(successCB, errorCB)</li>
+								<li>void pause()</li>
+								<li>void resume()</li>
+								<li>void stop()</li>
+								<li>seekTo(position)
+									<ul>
+										<li>Position:100 单位：秒</li>
+									</ul>
+								</li>
+								<li>Number getDuration() 单位：秒</li>
+								<li>Number getPosition() 单位：秒</li>
+								<li>void setRoute(route)
+									<ul>
+										<li>Route: //数字。常量 ROUTE_SPEAKER （扬声器模式）； ROUTE_EARPIECE （听筒模式）</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li>方法
+					<ul>获取录音设备
+						<li>getRecorder()
+							<ul>
+								<li>AudioRecorder plus.audio.getRecorder()</li>
+							</ul>
+						</li>
+					</ul>
+					<ul>创建播放器
+						<li>createPlayer()
+							<ul>
+								<li>
+									AudioPlayer plus.audio.createPlayer(path)</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+
+		</div>
+
+		<h3><a href="./pages/accelerator.html">手机扫描二维码</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>手机扫描二维码</h3>
+
+		<h3><a href="./pages/accelerator.html">手机摄像头调用</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>手机摄像头调用</h3>
+
+		<h3><a href="./pages/accelerator.html">手机联系人获取</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>手机联系人获取</h3>
+
+		<h3><a href="./pages/accelerator.html">手机设备信息管理</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>手机设备信息管理</h3>
+
+		<h3><a href="./pages/accelerator.html">网络下载功能实现</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>网络下载功能实现</h3>
+
+		<h3><a href="./pages/accelerator.html">手机系统事件处理</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>手机系统事件处理</h3>
+
+		<h3><a href="./pages/accelerator.html">手机相册功能管理</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>手机相册功能管理</h3>
+
+		<h3><a href="./pages/accelerator.html">手机定位功能管理</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>手机定位功能管理</h3>
+
+		<h3><a href="./pages/accelerator.html">手机文件管理</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>手机文件管理</h3>
+
+		<h3><a href="./pages/accelerator.html">手机按键事件管理</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>手机按键事件管理</h3>
+
+		<h3><a href="./pages/accelerator.html">手机短信管理</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>手机短信管理</h3>
+
+		<h3><a href="./pages/accelerator.html">原生UI使用</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>原生UI使用</h3>
+
+		<h3><a href="./pages/accelerator.html">手机浏览器管理</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>手机浏览器管理</h3>
+
+		<h3><a href="./pages/accelerator.html">手机按键事件管理</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>手机按键事件管理</h3>
+
+		<h3><a href="./pages/accelerator.html">手机第三方登录</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>手机第三方登录</h3>
+
+		<h3><a href="./pages/accelerator.html">管理设备方向</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>管理设备方向</h3>
+
+		<h3><a href="./pages/accelerator.html">在线支付</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>在线支付</h3>
+
+		<h3><a href="./pages/accelerator.html">消息推送</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>消息推送</h3>
+
+		<h3><a href="./pages/accelerator.html">运行时管理</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>运行时管理</h3>
+
+		<h3><a href="./pages/accelerator.html">语音识别</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>语音识别</h3>
+
+		<h3><a href="./pages/accelerator.html">APP本地存储</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>APP本地存储</h3>
+
+		<h3><a href="./pages/accelerator.html">文件上传</a></h3>
 		<div></div>
-		<h3><a href="./pages/accelerator.html"></a>文件上传</h3>
-		<div></div>
+
 	</body>
 </html>
