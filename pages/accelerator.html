@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">加速感应器</h1>
+		</header>
+
+		<div class="mui-content">
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block" id="btnGetAcc">获取</button>
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block" id="btnWatchAcc">启动监听</button>
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block" id="btnStopWatch">停止监听</button>
+			<p id="info">
+
+			</p>
+		</div>
+
+		<script>
+			var watchId = null;
+			
+			mui.plusReady(function() {
+				getAcc();
+			});
+			
+			$("#btnGetAcc").bind("tap", function(){
+				getAcc();
+			});
+			$("#btnWatchAcc").bind("tap", function(){
+				watchAcc();
+			});
+			$("#btnStopWatch").bind("tap", function(){
+				clearWatch(watchId);
+			});
+
+			function getAcc() {
+				plus.accelerometer.getCurrentAcceleration(function(a) {
+					alert("Acceleration\nx: " + a.xAxis + "\ny: " + a.yAxis + "\nz: " + a.zAxis);
+				}, function(e) {
+					alert("code: " + e.code + "\nmessage: " + e.message);
+				});
+			}
+
+			function watchAcc() {
+				watchId = plus.accelerometer.watchAcceleration(function(a) {
+					$("#info").text("Acceleration\nx: " + a.xAxis + "\ny: " + a.yAxis + "\nz: " + a.zAxis);
+				}, function(e) {
+					console.log(`code: ${e.code}, message: ${e.message}`);
+				}, {
+					frequency: 100
+				});
+			}
+
+			function clearWatch(watchId) {
+				plus.accelerometer.clearWatch(watchId);
+			}
+		</script>
+	</body>
+
+</html>
