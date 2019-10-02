@@ -112,7 +112,74 @@
 		</div>
 
 		<h3><a href="./pages/accelerator.html">手机扫描二维码</a></h3>
-		<div></div>
+		<div>
+			Barcode 模块管理条码扫描，提供常见的条码（二维码即一维码）的扫描识别功能，可调用设备的摄像头对条码图片扫描进行数据输入。
+			<ul>
+				应用场景
+				<li>扫码关注</li>
+				<li>扫码支付</li>
+				<li>扫码登录</li>
+				<li>扫码读取</li>
+			</ul>
+			<ul>
+				调用方式
+				<li>摄像头扫描</li>
+				<li>图片识别</li>
+			</ul>
+			<ul>
+				条码类型 -- plus.barcode.*
+				<li>QR：二维码 -- 数值为 0</li>
+				<li>EAN13： 条形码（一维条码标准版） -- 数值为 1</li>
+				<li>EAN8： 条形码（一维条码简版） -- 数值为 2</li>
+				<li>...其他条码类型不常用...</li>
+			</ul>
+			<ul>
+				对象。摄像头扫描
+				<li>Barcode = new plus.barcode.Barcode(id, filters, styles)
+					<ul>
+						<li>id： html 对象 id 用户识别控件的初始化</li>
+						<li>filter： 要识别的条码类型过滤器，为条码类型常量数组</li>
+						<li>styles： 条码识别控件样式
+							<ul>
+								<li>String frameColor 扫描框颜色</li>
+								<li>String scanbarColor 扫描条颜色</li>
+								<li>String background 条码识别控件背景色</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li>Barcode
+					<ul>
+						<li>void start(options)
+							<ul>
+								<li>options
+									<ul>
+										<li>Boolean conserve 是否保存截图。默认 false</li>
+										<li>String filename 截图保存路径</li>
+										<li>Boolean vibrate 成功后是否震动。默认 true</li>
+										<li>String sound 成功后提示音。可为 none。默认 default</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li>void cancel()</li>
+						<li>void close()</li>
+						<li>void setFlash(open) 闪光灯
+							<ul>
+								<li>open： true/false。默认 false</li>
+							</ul>
+						</li>
+						<li>void onmarked() 识别成功后的回调</li>
+						<li>void onerror()</li>
+					</ul>
+				</li>
+				<li>方法。识别图片
+					<ul>
+						<li>void plus.barcode.scan(path, successCB, errorCB, filters)</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
 
 		<h3><a href="./pages/accelerator.html">手机摄像头调用</a></h3>
 		<div></div>

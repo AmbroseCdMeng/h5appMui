@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">Audio 音频</h1>
+		</header>
+
+		<div class="mui-content">
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block" id="btnStartRecord">开始录音</button>
+
+			<ul class="mui-table-view" id="liRecordFiles">
+
+			</ul>
+
+		</div>
+
+		<div id="divRecrod">
+			正在录音：
+			<span id="recordTime">
+				0
+			</span>
+			<br />
+			<button type="button" class="mui-btn mui-btn-blue" id="btnStopRecord">停止录音</button>
+		</div>
+
+
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				var recorder = null;
+				var recorderTime = null;
+				var times = 1;
+
+				$('#btnStartRecord').on('tap', function() {
+					startRecord();
+				});
+
+				$('#btnStopRecord').on('tap', function() {
+					stopRecord();
+				});
+
+				function startRecord() {
+					recorderTime = setInterval(function() {
+						$('#recordTime').html(times++);
+					}, 1000);
+
+					//1. 创建 recorder
+					recorder = plus.audio.getRecorder();
+
+					if (recorder == null) {
+						console.log(`录音对象未获取`);
+						return;
+					}
+					//2. 录音
+					recorder.record({
+						filename: "_doc/audio/"
+					}, function(filePath) {
+						/* 文件处理 */
+						plus.io.resolveLocalFileSystemURL(filePath, function(entry) {
+							/* 加载列表 */
+							$('#liRecordFiles').append(
+								`<li class="mui-table-view-cell">
+									<a class="mui-navigate-right recordItem">
+										${entry.name}
+									</a>
+								</li>`
+							);
+							/*  */
+
+							/* 绑定播放事件 */
+							$('.recordItem').bind('tap', function() {
+								var name = $(this).text().trim();
+								var path = `_doc/audio/${name}`;
+								var player = plus.audio.createPlayer(path);
+								player.play(function() {
+									console.log('play ended');
+								}, function(e) {
+									console.log(e.message);
+								});
+							});
+							/* end */
+						}, function(e) {
+							outLine(e.message);
+						})
+						/*  */
+					}, function(e) {
+						alert(`${e.code}: ${e.message}`);
+					});
+					//3. 保存
+				}
+
+				function stopRecord() {
+					clearInterval(recorderTime);
+					recorder.stop();
+				}
+
+
+
+			})
+		</script>
+
+	</body>
+
+</html>

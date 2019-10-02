@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+
+		<style type="text/css">
+			#scanContainer {
+				height: 500px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">扫描</h1>
+		</header>
+
+		<div class="mui-content">
+			<div class="" id="scanContainer">
+			</div>
+			<div class="" id="info">
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				var barScan = new plus.barcode.Barcode('scanContainer', [plus.barcode.QR, plus.barcode.EAN13], {
+					background: '#90EE90',
+					frameColor: '#1E90FF',
+					scanBarColor: '#DC143C'
+				});
+				barScan.onmarked = function(type, code, file) {
+					$('#info').html(`type: ${type} \n code: ${code} \n file: ${file}`);
+				};
+
+				barScan.start({
+					conserve: true,
+					filename: '_doc/barcode/',
+				});
+			})
+		</script>
+	</body>
+</html>
