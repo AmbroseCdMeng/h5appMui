@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">摄像头调用</h1>
+		</header>
+
+		<div class="mui-content">
+			<button type="button" class="mui-btn mui-btn-green mui-btn-block" id="btnPhoto">拍照</button>
+			<button type="button" class="mui-btn mui-btn-red mui-btn-block" id="btnVideo">录像</button>
+			<ul class="mui-table-view" id="ulphoto">
+			</ul>
+
+			<img src="#" alt="" id="image" style="max-width: 100%;">
+			
+			<video width="100%" height="" id="video" controls="controls">
+			</video>
+		</div>
+
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				$('#btnPhoto').on('tap', function() {
+					var camera = plus.camera.getCamera();
+					camera.captureImage(function(imgUrl) {
+						$('#ulphoto').append(
+							` <li class="mui-table-view-cell">
+								<a class="mui-navigate-right">
+									${imgUrl}
+								</a>
+							</li>`
+						);
+						plus.io.resolveLocalFileSystemURL(imgUrl, function(entry) {
+							$('#image').attr('src', entry.fullPath);
+						});
+
+					}, function(e) {
+						alert(e.message);
+					}, {
+						filename: '_doc/photo/', //斜杠结尾自动生成文件名
+					});
+
+				})
+
+				$('#btnVideo').on('tap', function() {
+					var camera = plus.camera.getCamera();
+					camera.startVideoCapture(function(imgUrl) {
+						plus.io.resolveLocalFileSystemURL(imgUrl, function(entry){
+							$('#video').attr('src', entry.fullPath);
+						});
+					}, function(e) {
+						alert(e.message);
+					}, {
+						filename: '_doc/video/', //斜杠结尾自动生成文件名
+					});
+				})
+			})
+		</script>
+
+	</body>
+
+</html>
