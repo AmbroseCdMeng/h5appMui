@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">事件</h1>
+		</header>
+
+		<div class="mui-content">
+			<button type="button" class="mui-btn mui-btn-red mui-btn-block">加载错误</button>
+		</div>
+
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				// pause 应用从前台切入后台
+				document.addEventListener('pause', function() {
+					console.log('paused');
+				});
+				// resume 应用从后台切入前台
+				document.addEventListener('resume', function() {
+					console.log('paused');
+				});
+				// netchange 网络状态变化
+				document.addEventListener('netchange', function() {
+					console.log('netchange');
+				});
+				
+				//错误事件
+				$('#btnError').bind('tap', function(){
+					mui.openWindow({
+						url:'http://www.html5plus.org/doc/zh_cn/device.html',
+						styles:{
+							errorPage:'404.html'
+						}
+					})
+				})
+			})
+		</script>
+	</body>
+
+</html>
