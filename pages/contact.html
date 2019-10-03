@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">联系人管理</h1>
+		</header>
+
+		<div class="mui-content">
+			<button type="button" class="mui-btn mui-btn-red mui-btn-block" id="btnSearchContact">查找联系人</button>
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="btnAddContact">添加联系人</button>
+			<button type="button" class="mui-btn mui-btn-yellow mui-btn-block" id="btnModifyContact">修改联系人</button>
+			<button type="button" class="mui-btn mui-btn-green mui-btn-block" id="btnDeleteContact">删除联系人</button>
+		</div>
+
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				/* 初始化 */
+				var contact = null;
+				var addressBookObj = null;
+				plus.contacts.getAddressBook(plus.contacts.ADDRESSBOOK_PHONE,
+					function(addressBook) {
+						addressBookObj = addressBook;
+					},
+					function(e) {
+
+					});
+				/* end */
+
+				$('#btnSearchContact').on('tap', function() {
+					addressBookObj.find([], function(contact) {
+						alert(contact.length);
+					}, function(e) {
+
+					}, {
+						filter: [{
+							logic: 'and',
+							field: 'name.familyName',
+							value: '*王*'
+						}]
+					});
+				});
+
+				$('#btnAddContact').on('tap', function() {
+					/* 创建联系人 并返回联系人对象 */
+					contact = addressBookObj.create();
+					contact.name = {
+							//formatted:'',	由其他字段组合生成
+							familyName: '刘',
+							givenName: '富贵',
+							middleName: '',
+							honorificPrefix: 'Mr.',
+							honorificSuffix: '',
+						},
+						contact.phoneNumbers = [{
+							type: "手机",
+							value: "17777778888",
+							preferred: true
+						}];
+					contact.save();
+					mui.alert('添加成功');
+				});
+
+				$('#btnModifyContact').on('tap', function() {
+					addressBookObj.find([], function(contact) {
+						contact.forEach(function(item) {
+							item.name.givenName = '国庆';
+							item.save();
+						});
+						mui.alert('修改成功');
+					}, function(e) {
+
+					}, {
+						filter: [{
+							logic: 'and',
+							filed: 'name.givenName',
+							value: '富贵'
+						}]
+					})
+				});
+
+				$('#btnDeleteContact').on('tap', function() {
+					addressBookObj.find([], function(contact) {
+						contact.forEach(function(item) {
+							item.remove();
+						});
+						mui.alert('删除成功');
+					}, function(e) {
+						
+					}, {
+						filter: [{
+							logic: 'and',
+							field: 'name.familyName',
+							value: '*刘*'
+						}]
+					})
+				});
+			})
+		</script>
+	</body>
+
+</html>
