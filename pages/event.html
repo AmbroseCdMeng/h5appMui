@@ -32,19 +32,19 @@
 				});
 				// resume 应用从后台切入前台
 				document.addEventListener('resume', function() {
-					console.log('paused');
+					console.log('resume');
 				});
 				// netchange 网络状态变化
 				document.addEventListener('netchange', function() {
 					console.log('netchange');
 				});
-				
+
 				//错误事件
-				$('#btnError').bind('tap', function(){
+				$('#btnError').bind('tap', function() {
 					mui.openWindow({
-						url:'http://www.html5plus.org/doc/zh_cn/device.html',
-						styles:{
-							errorPage:'404.html'
+						url: 'http://www.html5plus.org/doc/zh_cn/device.html',
+						styles: {
+							errorPage: '404.html'
 						}
 					})
 				})
