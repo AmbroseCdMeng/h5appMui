@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">文件管理 IO 流</h1>
+		</header>
+		<div class="mui-content">
+			<button type="button" class="mui-btn mui-btn-yellow mui-btn-block" id="btnReadJS">读取 js</button>
+		</div>
+
+		<p id="info"></p>
+
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				$('#btnReadJS').bind('tap', function() {
+					plus.io.resolveLocalFileSystemURL('_www/js/', function(entry) {
+						
+						$('#info').html(
+							`isDirectory: ${entry.isDirectory} <br>
+							isFile: ${entry.isFile} <br>
+							name: ${entry.name} <br>
+							fullPath: ${entry.fullPath} <br>
+							fileSystem: ${entry.fileSystem.name} <br><br>
+							toURL: ${entry.toURL()} <br>
+							toLocalURL: ${entry.toLocalURL()} <br>
+							toRemoteURL: ${entry.toRemoteURL()} <br>`
+						);
+
+						entry.getDirectory('demo', {
+							create: true
+						}, function(entry) {
+							alert(entry.fullPath);
+						}, function(e) {
+
+						})
+					}, function(e) {
+						console.log(e.message);
+					});
+				})
+			})
+		</script>
+	</body>
+
+</html>
