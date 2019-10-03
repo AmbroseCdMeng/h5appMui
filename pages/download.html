@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">下载</h1>
+		</header>
+
+		<div class="mui-content">
+			<button type="button" class="mui-btn mui-btn-red mui-btn-block" id="btnDownload">创建下载任务</button>
+			<p id="state"></p>
+			<ul class="mui-table-view" id="list">
+			</ul>
+			<video width="100%" height="" controls="controls">
+			</video>
+		</div>
+
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				
+				$('#btnDownload').on('tap', function(){
+					//第一步：下载文件
+					var url = 'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4';
+					var downloadtask = plus.downloader.createDownload(url, {
+						filename: '_doc/download/download.mp4'
+					}, function(download, status) {
+						plus.io.resolveLocalFileSystemURL(download.filename, function(entry) {
+							mui.alert('download completed');
+							$('#list').append(
+								`<li class="mui-table-view-cell">
+									<p>${download.filename}</p>									
+									<p>${entry.fullPath}</p>
+								</li>`
+							);
+							$('#myVideo').attr('src', entry.fullPath);
+						});
+					});
+					
+					//第二步：创建监听
+					downloadtask.addEventListener('statechanged', function(task, status) {
+						var text = '未知';
+						if (!task)
+							return;
+						switch (task.state) {
+							case 1:
+								text = '开始下载';
+								break;
+							case 2:
+								text = '连接到服务器';
+								break;
+							case 3:
+								text = '下载中...';
+								text += '<br /> ' + task.downloadedSize + ' / ' + task.totalSize;
+								break;
+							case 4:
+								text = '下载完成';
+								break;
+							default:
+								text = '状态异常';
+								break;
+						}
+						$('#state').html(text);
+					});
+					//第三步：启动
+					downloadtask.start();
+				});
+			})
+		</script>
+
+	</body>
+
+</html>
