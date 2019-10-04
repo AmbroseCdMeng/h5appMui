@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">语音识别</h1>
+		</header>
+
+		<div class="mui-content">
+			<button type="button" class="mui-btn mui-btn-green mui-btn-block" id="btnStartRecognize">开始语音识别</button>
+			<button type="button" class="mui-btn mui-btn-red mui-btn-block" id="btnStopRecognize">停止语音识别</button>
+			<button type="button" class="mui-btn mui-btn-yellow mui-btn-block" id="btnAddWatching">监听语音识别</button>
+
+			<div id="info">
+
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				$('#btnStartRecognize').on('tap', function() {
+					plus.speech.startRecognize({
+						continue:false,
+						engine:'iFly', //语音识别引擎标识
+						lang:'zh-cn',
+						nbest:3,//候选结果
+					}, (result) => {
+						const html = ``;
+						result.forEach((item) => {
+							html += `item <br>`;
+						});
+						$('#info').html(html);
+					}, (e) => {
+						console.log(e.message);
+					});
+				});
+
+				$('#btnStopRecognize').on('tap', function() {
+					plus.speech.stopRecognize();
+				});
+
+				$('#btnAddWatching').on('tap', function() {
+					//plus.speech.addEventListener(event, listener, capture);
+				});
+			})
+		</script>
+	</body>
+
+</html>
