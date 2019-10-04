@@ -21,195 +21,26 @@
 		<hr /><br>
 		<h4><a href="./pages/accelerator.html">手机加速感应器</a></h4>
 		<div>
-			Accelerometer 模块管理设备加速度传感器，用于获取设备加速度信息，包括 x （屏幕水平方向）、y（屏幕垂直方向）、z（垂直屏幕平面方向）三个方向的加速度。
-			由于重力加速度的影响，即使静止不动的情况下，垂直方向也会有加速度。
-
-			<ul>
-				应用场景
-				<li>摇一摇</li>
-				<li>计步</li>
-				<li>报警系统</li>
-				<li>速度感应器</li>
-			</ul>
-
-			<ul>调用接口
-				<li>即时获取
-					<ul>getCurrentAcceleration
-						<li>void plus.accelerometer.getCurrentAcceleration(successCB, errorCB)</li>
-					</ul>
-				</li>
-				<li>监听接口
-					<ul>watchAcceleration
-						<li>Number plus.accelerometer.watchAcceleration(successCB, errorCB, option)</li>
-						<li>Option:{frequency:1000}</li>
-					</ul>
-				</li>
-				<li>取消监听
-					<ul>clearWatch
-						<li>void plus.accelerometer.clearWatch(watchId)</li>
-					</ul>
-				</li>
-			</ul>
 		</div>
 
 		<h4><a href="./pages/audio.html">手机录音和播放</a></h4>
 		<div>
-			Audio 模块用于提供音频的录制和播放功能，可以调用系统的麦克风设备进行录音操作，也可以调用系统的扬声器设备播放音频文件。
-			<ul>
-				应用场景
-				<li>音频录制</li>
-				<li>语音聊天</li>
-				<li>语音留言</li>
-				<li>音频播放</li>
-			</ul>
-			<ul>调用接口
-				<li>对象
-					<ul>录音
-						<li>AudioRecorder
-							<ul>
-								<li>void recorder.record(option, successCB, errorCB)
-									<ul>
-										<li>option:{filename:"_doc/audio/"}</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-					</ul>
-					<ul>播放
-						<li>AudioPlayer
-							<ul>
-								<li>void play(successCB, errorCB)</li>
-								<li>void pause()</li>
-								<li>void resume()</li>
-								<li>void stop()</li>
-								<li>seekTo(position)
-									<ul>
-										<li>Position:100 单位：秒</li>
-									</ul>
-								</li>
-								<li>Number getDuration() 单位：秒</li>
-								<li>Number getPosition() 单位：秒</li>
-								<li>void setRoute(route)
-									<ul>
-										<li>Route: //数字。常量 ROUTE_SPEAKER （扬声器模式）； ROUTE_EARPIECE （听筒模式）</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</li>
-				<li>方法
-					<ul>获取录音设备
-						<li>getRecorder()
-							<ul>
-								<li>AudioRecorder plus.audio.getRecorder()</li>
-							</ul>
-						</li>
-					</ul>
-					<ul>创建播放器
-						<li>createPlayer()
-							<ul>
-								<li>
-									AudioPlayer plus.audio.createPlayer(path)</li>
-							</ul>
-						</li>
-					</ul>
-				</li>
-			</ul>
-
 		</div>
 
 		<h4><a href="./pages/accelerator.html">手机扫描二维码</a></h4>
 		<div>
-			Barcode 模块管理条码扫描，提供常见的条码（二维码即一维码）的扫描识别功能，可调用设备的摄像头对条码图片扫描进行数据输入。
-			<ul>
-				应用场景
-				<li>扫码关注</li>
-				<li>扫码支付</li>
-				<li>扫码登录</li>
-				<li>扫码读取</li>
-			</ul>
-			<ul>
-				调用方式
-				<li>摄像头扫描</li>
-				<li>图片识别</li>
-			</ul>
-			<ul>
-				条码类型 -- plus.barcode.*
-				<li>QR：二维码 -- 数值为 0</li>
-				<li>EAN13： 条形码（一维条码标准版） -- 数值为 1</li>
-				<li>EAN8： 条形码（一维条码简版） -- 数值为 2</li>
-				<li>...其他条码类型不常用...</li>
-			</ul>
-			<ul>
-				对象。摄像头扫描
-				<li>Barcode = new plus.barcode.Barcode(id, filters, styles)
-					<ul>
-						<li>id： html 对象 id 用户识别控件的初始化</li>
-						<li>filter： 要识别的条码类型过滤器，为条码类型常量数组</li>
-						<li>styles： 条码识别控件样式
-							<ul>
-								<li>String frameColor 扫描框颜色</li>
-								<li>String scanbarColor 扫描条颜色</li>
-								<li>String background 条码识别控件背景色</li>
-							</ul>
-						</li>
-					</ul>
-				</li>
-				<li>Barcode
-					<ul>
-						<li>void start(options)
-							<ul>
-								<li>options
-									<ul>
-										<li>Boolean conserve 是否保存截图。默认 false</li>
-										<li>String filename 截图保存路径</li>
-										<li>Boolean vibrate 成功后是否震动。默认 true</li>
-										<li>String sound 成功后提示音。可为 none。默认 default</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-						<li>void cancel()</li>
-						<li>void close()</li>
-						<li>void setFlash(open) 闪光灯
-							<ul>
-								<li>open： true/false。默认 false</li>
-							</ul>
-						</li>
-						<li>void onmarked() 识别成功后的回调</li>
-						<li>void onerror()</li>
-					</ul>
-				</li>
-				<li>方法。识别图片
-					<ul>
-						<li>void plus.barcode.scan(path, successCB, errorCB, filters)</li>
-					</ul>
-				</li>
-			</ul>
+		</div>
+		
+		<h4><a href="./pages/.html">蓝牙模块</a></h4>
+		<div>
 		</div>
 
 		<h4><a href="./pages/camera.html">手机摄像头调用</a></h4>
 		<div>
-			Camera 模块管理设备摄像头，可用于拍照、摄像操作。
-			<ul>应用场景
-				<li>保存自拍</li>
-				<li>保存照片</li>
-				<li>上传照片</li>
-				<li>保存视频</li>
-				<li>上传视频</li>
-				- <li>实时视频</li>
-			</ul>
 		</div>
 
 		<h4><a href="./pages/contact.html">手机联系人获取</a></h4>
 		<div>
-			<ul>
-				<li>查找联系人</li>
-				<li>导入联系人</li>
-				<li>通讯录备份</li>
-				<li>通讯录同步</li>
-			</ul>
 		</div>
 
 		<h4><a href="./pages/device.html">手机设备信息管理</a></h4>
@@ -251,7 +82,10 @@
 		<h4><a href="./pages/payment.html">在线支付</a></h4>
 		<div></div>
 
-		<h4><a href="./pages/.html">消息推送</a></h4>
+		<h4><a href="./pages/.html">距离传感器</a></h4>
+		<div></div>
+		
+		<h4><a href="./pages/push.html">消息推送</a></h4>
 		<div></div>
 
 		<h4><a href="./pages/.html">运行时管理</a></h4>

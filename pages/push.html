@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">消息推送</h1>
+		</header>
+		
+		<div class="mui-content">
+			<button type="button" class="mui-btn mui-btn-yellow mui-btn-block" id="btnAddWatch">添加推送消息事件监听器</button>
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="btnCreateMsg">创建本地消息</button>
+			<button type="button" class="mui-btn mui-btn-green mui-btn-block" id="btnGetAllMsg">获取所有推送消息</button>
+			<button type="button" class="mui-btn mui-btn-red mui-btn-block" id="btnClearAllMsg">清空所有推送消息</button>
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block" id="btnGetClientInfo">获取客户端推送标识信息</button>
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="btnSetAutoNotification">设置程序是否将消息显示在系统消息中心</button>
+			<button type="button" class="mui-btn mui-btn-red mui-btn-block" id="btnRemoveMsg">删除推送消息</button>
+			
+			<p id="info"></p>
+		</div>
+		
+		<script type="text/javascript">
+			mui.plusReady(function () {
+				
+			    $('#btnAddWatch').bind('on', function(){
+					
+				});
+				
+				$('#btnCreateMsg').bind('on', function(){
+					plus.push.createMessage('Message content', 'test', {
+						// 'appid':'',//仅流应用环境中有效
+						cover:false, //是否覆盖上一次提示	// Android 支持
+						delay:0,//提示延迟时间
+						icon:'',//消息推送图标	// IOS 不支持自定义图标
+						sound:'system',//none
+						// title:'', //默认程序名称
+						// subtitle:'', // IOS 10+ 支持
+						// when:new Date(),//消息上显示的提示时间 仅 Android 支持 默认当前时间
+					});
+				});
+				
+				$('#btnGetAllMsg').bind('on', function(){
+					
+				});
+				
+				$('#btnClearAllMsg').bind('on', function(){
+					
+				});
+				
+				$('#btnGetClientInfo').bind('on', function(){
+					
+				});
+				
+				$('#btnSetAutoNotification').bind('on', function(){
+					
+				});
+				
+				$('#btnRemoveMsg').bind('on', function(){
+					
+				});
+			})
+		</script>
+	</body>
+</html>
