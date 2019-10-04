@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">设备方向管理</h1>
+		</header>
+
+		<div class="mui-content">
+			<button type="button" class="mui-btn mui-btn-green mui-btn-block" id="btnGetOrientation">获取设备方向</button>
+			<button type="button" class="mui-btn mui-btn-yellow mui-btn-block" id="btnStartWatching">开始监听</button>
+			<button type="button" class="mui-btn mui-btn-red mui-btn-block" id="btnStopWatching">停止监听</button>
+			<p id="info"></p>
+		</div>
+
+		<script type="text/javascript">
+			mui.plusReady(function() {
+
+				var orientationId = null;
+
+				$('#btnGetOrientation').bind('tap', function() {
+					plus.orientation.getCurrentOrientation(function(rotation) {
+						$('#info').html(
+							`alpha -- 以z方向为轴心的旋转角度: ${rotation.alpha} <br/>
+							beta -- 以x方向为轴心的旋转角度: ${rotation.beta} <br/>
+							gamma -- 以y方向为轴心的旋转角度: ${rotation.gamma} <br/>
+							magneticHeading -- 设备方向与地球磁场北极方向的角度: ${rotation.magneticHeading}	IPad 不支持 <br/>
+							trueHeading -- 设备方向与地球真实北极方向的角度: ${rotation.trueHeading}	IPad 不支持 <br/>
+							headingAccuracy -- 设备方向值的误差值: ${rotation.headingAccuracy}	IPad 不支持 <br/>`
+						);
+					}, function(e) {
+						console.log(e.message);
+					});
+				});
+
+				$('#btnStartWatching').bind('tap', function() {
+					orientationId = plus.orientation.watchOrientation(function(rotation) {
+						$('#info').html(
+							`---------------  监听中  ---------------  <br/>
+							alpha -- 以z方向为轴心的旋转角度: ${rotation.alpha} <br/>
+							beta -- 以x方向为轴心的旋转角度: ${rotation.beta} <br/>
+							gamma -- 以y方向为轴心的旋转角度: ${rotation.gamma} <br/>
+							magneticHeading -- 设备方向与地球磁场北极方向的角度: ${rotation.magneticHeading}	IPad 不支持 <br/>
+							trueHeading -- 设备方向与地球真实北极方向的角度: ${rotation.trueHeading}	IPad 不支持 <br/>
+							headingAccuracy -- 设备方向值的误差值: ${rotation.headingAccuracy}	IPad 不支持 <br/>`
+						);
+					}, function(e) {
+						console.log(e.message);
+					}, {
+						'frequency': 500, //更新方向信息的时间间隔 单位 ms
+					});
+				});
+
+				$('#btnStopWatching').bind('tap', function() {
+					plus.orientation.clearWatch(orientationId);
+					$('#info').html(
+						`---------------  监听停止  ---------------  <br/>`
+					);
+				});
+
+			})
+		</script>
+	</body>
+
+</html>
