@@ -1,0 +1,182 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">原生 UI</h1>
+		</header>
+		<div class="mui-content">
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="btnAlert">alert -- 对话框</button>
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block" id="btnConfirm">confirm -- 确认对话框</button>
+			<button type="button" class="mui-btn mui-btn-green mui-btn-block" id="btnActionSheet">actionSheet -- 系统选择按钮框</button>
+			<button type="button" class="mui-btn mui-btn-yellow mui-btn-block" id="btnPrompt">prompt -- 系统输入对话框</button>
+			<button type="button" class="mui-btn mui-btn-grey mui-btn-block" id="btnShowWaiting">showWaiting -- 显示系统等待对话框</button>
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="btnCloseWaiting">closeWaiting -- 关闭系统等待对话框</button>
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block" id="btnPickDate">pickDate -- 系统日期选择框</button>
+			<button type="button" class="mui-btn mui-btn-green mui-btn-block" id="btnPickTime">pickTime -- 系统时间选择框</button>
+			<button type="button" class="mui-btn mui-btn-yellow mui-btn-block" id="btnToast">toast -- 自动消失的提示框</button>
+		</div>
+		<script type="text/javascript">
+			mui.plusReady(function() {
+
+				$('#btnAlert').bind('tap', function() {
+					plus.nativeUI.alert('messageText', function() {
+						console.log('alert pressed');
+					}, '提示', 'OK');
+				});
+
+				$('#btnConfirm').bind('tap', function() {
+					plus.nativeUI.confirm('Are you sure ?', function(event) {
+						console.log(event.index);
+					}, {
+						'title': '确认',
+						'buttons': ['Yes', 'No'],
+						'verticalAlign': 'bottom'
+						// }, ['Yes', 'No'])	//按钮可以作为第四个参数
+					})
+					//也可以放在第三个参数对象中,建议放在参数对象中,方便设置 style
+				});
+
+				$('#btnActionSheet').bind('tap', function() {
+					plus.nativeUI.actionSheet({
+						'title': '系统选择框',
+						'cancel': '取消', //不设置此属性则不显示取消按钮
+						//iOS - ALL (支持): 在iPad设备上不会显示取消按钮，点击actionsheet区域之外会自动关闭，并自动触发取消回调
+						'buttons': [{
+							'color': '#FF0000', //IOS 设备暂不支持字体颜色设置
+							'title': '按钮 1',
+							'style': 'destructive', //默认 default, destructive 为警示按钮.	iOS7 以下设备只支持 1 个 警示按钮
+						}, {
+							'color': '#465821',
+							'title': '按钮 2',
+							'style': 'default',
+						}, {
+							'color': '#999999',
+							'title': '按钮 3',
+							'style': 'default',
+						}],
+					}, function(event) {
+						console.log(event.index);
+					})
+				});
+
+				$('#btnPrompt').bind('tap', function() {
+					plus.nativeUI.prompt('message', //输入对话框上显示的内容
+						function(event) {
+							console.log(event.index);
+						},
+						'title',
+						'tip', //输入对话框上编辑框显示的提示文字
+						['Button 1', 'Button 2']);
+				});
+
+				$('#btnShowWaiting').bind('tap', function() {
+					plus.nativeUI.showWaiting('title', {
+						'width': '50%',
+						'height': '70%',
+						'color': '#FF0000', //等待框中文字的颜色
+						'size': '14px',
+						'textalign': 'center',
+						'padding': '5%',
+						'background': 'rgba(0,0,0,0.7)',
+						'style': 'white', //black表示等待框为黑色雪花样式；white表示等待框为白色雪花样式。 仅在iOS平台有效，
+						'modal': true, //等待框是否模态显示。模态显示时用户不可操作直到等待对话框关闭
+						'round': 10, //默认单位 px 支持 String '10px'
+						'padlock': true, //点击等待显示区域是否自动关闭
+						'back': 'none', //返回键处理方式. IOS 无返回键 忽略此属性
+						'loading': {
+							'display': 'block', //block/nline/none
+							'height': '14px',
+							'icon': '',
+							'interval': 100, //loading图每帧刷新间隔  ms
+							'type': 'circle', //circle/snow	如果设置了 icon 属性 则优先使用 icon
+						} //loading图标自定义样式
+					});
+				});
+
+				$('#btnCloseWaiting').bind('tap', function() {
+					plus.nativeUI.closeWaiting();
+					/* 使用定时器 5s 后自动关闭 loading */
+					/* setTimeout(function() {
+						plus.nativeUI.closeWaiting();
+					}, 5000); */
+				});
+
+				$('#btnPickDate').bind('tap', function() {
+					plus.nativeUI.pickDate(function(event) {
+						alert(event.date);
+					}, function(e) {
+						console.log(e.message);
+					}, {
+						'title': 'Please Pick Date',
+						'date': new Date(), //指定默认日期 默认当前日期
+						'minDate': new Date(new Date().getTime() - (7 * 3600 * 24 * 1000)),
+						'maxDate': new Date(new Date().getTime() + (7 * 3600 * 24 * 1000)),
+						'popover': {
+							top: 10,
+							left: 10,
+							width: 200,
+							height: 200,
+						}, //时间选择对话框弹出指示区域	尽在iipad 上有效
+					});
+				});
+
+				$('#btnPickTime').bind('tap', function() {
+					plus.nativeUI.pickTime(function(event) {
+						alert(event.date);
+					}, function(e) {
+						console.log(e.message);
+					}, {
+						'title': 'Please Pick Time',
+						'time': new Date(), 
+						'is24Hour': true,
+						'popover': {
+							top: 10,
+							left: 10,
+							width: 200,
+							height: 200,
+						}, //时间选择对话框弹出指示区域	仅在ipad 上有效
+					})
+				});
+
+				$('#btnToast').bind('tap', function() {
+					plus.nativeUI.toast('message', {
+						'align':'center',
+						'background':'rgba(0,0,0,0.7)',
+						'duration':'long',
+						'icon':'',
+						'iconWidth':'60px',
+						'iconHeight':'90px',
+						'style':'block',
+						'type':'text',//text/richtext
+						'richTextStyle':{
+							'align':'center',
+							'family':'Times New Roman',
+							'fontSrc':'',//自定义字体文件路径
+							'onClick':function(event){
+								console.log(event.tagName);
+								console.log(event.href);
+								console.log(event.src);
+							},//如果设置此属性，则表示拦截所有RichText上的点击事件（不透传事件）
+						},
+						'verticalAlign':'center',
+					});
+				});
+			})
+		</script>
+	</body>
+
+</html>
