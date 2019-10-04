@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">在线支付</h1>
+		</header>
+
+		<div class="mui-content">
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="btnGetChannels">获取支付渠道</button>
+			<button type="button" class="mui-btn mui-btn-yellow mui-btn-block" id="btnRequest">请求支付操作</button>
+
+			<p id="info"></p>
+		</div>
+
+		<script type="text/javascript">
+			mui.plusReady(function() {
+
+				$('#btnGetChannels').on('tap', function() {
+					plus.payment.getChannels(function(channels) {
+						//返回系统支持的支付通道PaymentChannel列表
+						channels.forEach((channel) => {
+							/*
+							id: alipay -- 支付宝; wxpay -- 微信支付; appleiap -- 苹果应用内支付; qhpay -- 360聚合支付
+							*/
+							$('#info').html(
+							`----------  支付渠道  ---------- <br/>
+							id: ${id} -- 支付通道标识 <br/>
+							description: ${description} --  支付通道描述 <br/>
+							serviceReady: ${serviceReady} -- 支付通道服务是否安装 <br/>
+							`
+							);
+							
+							//channel.installService();//安装支付通道依赖的服务
+							//channel.requestOrder(ids, successCB, errorCB);//向IAP服务器请求支付订单. ids 请求商品的标识(必选)
+							//channel.restoreComplateRequest({'username':''}, successCB);//向IAP服务器请求已经购买的非消耗性商品和订阅商品
+						});
+					}, function(e) {
+						console.log(e.message);
+					});
+				});
+
+				// $('#btnRequest').on('tap', function() {
+				// 	plus.payment.request(plus.payment.getChannels())
+				// });
+
+			})
+		</script>
+	</body>
+
+</html>
