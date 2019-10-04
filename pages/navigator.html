@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">启动界面 & 状态栏</h1>
+		</header>
+		<div class="mui-content">
+			<button type="button" class="mui-btn mui-btn-yellow mui-btn-block" id="btnSetSplash">设置启动图片</button>
+			<button type="button" class="mui-btn mui-btn-red" id="btnSetStatus">设置状态栏</button>
+		</div>
+		
+		<script type="text/javascript">
+			mui.plusReady(function () {
+				
+				$('#btnSetSplash').bind('tap', function(){
+					plus.navigator.updateSplashscreen({
+						'image':'',
+						'autoclose':false,//是否自动关闭
+						'delay':3000,//延时关闭时间,仅 autoclose 为 true 时有效
+					});//更新启动图片 仅支持本地文件路径 png 格式  IOS不支持
+				})
+				
+				setTimeout(function(){
+					plus.navigator.closeSplashscreen();//关闭应用自启动界面
+				}, 5000);
+				
+			    plus.navigator.setStatusBarStyle('#FF00FF');//仅支持 IOS
+			})
+		</script>
+	</body>
+
+</html>
