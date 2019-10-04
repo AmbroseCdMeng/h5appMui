@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">运行时管理</h1>
+		</header>
+		<div class="mui-content">
+			<button type="button" class="mui-btn mui-btn-yellow mui-btn-block" id="getAttr">获取属性</button>
+			<button type="button" class="mui-btn mui-btn-red mui-btn-block" id="btnQuit">退出</button>
+			<button type="button" class="mui-btn mui-btn-green mui-btn-block" id="btnRestart">重启</button>
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block" id="btnOpenUrl">打开 URL</button>
+
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block" id="btnOpenFile">打开文件</button>
+			<button type="button" class="mui-btn mui-btn-yellow mui-btn-block" id="btnOpenApp">打开第三方程序</button>
+			<div id="info"></div>
+		</div>
+
+		<script type="text/javascript">
+			mui.plusReady(function() {
+
+				$('#getAttr').bind('tap', function() {
+					var appid = plus.runtime.appid; // 当前应用的APPID
+					var args = plus.runtime.arguments; // 第三方程序调用时传递给程序的参数
+					var channel = plus.runtime.channel; // 应用的渠道标识
+					var launcher = plus.runtime.launcher; // 应用启动来源
+					var origin = plus.runtime.origin; // 应用安装来源
+					var version = plus.runtime.version; // 客户端的版本名称
+					var versionCode = plus.runtime.versionCode; // 客户端的版本号
+					var innerVersion = plus.runtime.innerVersion; // 客户端5+运行环境的内部版本号
+					var uniVersion = plus.runtime.uniVersion; // 客户端uni-app运行环境的版本号
+					var launchLoadedTime = plus.runtime.launchLoadedTime; // 获取当前应用首页加载的时间
+					var processId = plus.runtime.processId; // 获取当前应用的进程标识
+					var startupTime = plus.runtime.startupTime; // 获取当前应用的启动时间戳
+
+					var infoStr =
+						`当前应用的APPID: ${appid} <br />
+						第三方程序调用时传递给程序的参数: ${args} <br />
+						应用的渠道标识: ${channel} <br />
+						应用启动来源: ${launcher} <br />
+						应用安装来源: ${origin} <br />
+						客户端的版本名称: ${version} <br />
+						客户端的版本号: ${versionCode} <br />
+						innerVersion: ${innerVersion} <br />
+						uniVersion: ${uniVersion} <br />
+						应用首页加载的时间: ${launchLoadedTime} <br />
+						应用的进程标识: ${processId} <br />
+						应用的启动时间戳: ${startupTime} <br />`;
+					$('#info').html(infoStr);
+				});
+
+				$('#btnQuit').bind('tap', function() {
+					plus.runtime.quit();
+				});
+
+				$('#btnRestart').bind('tap', function() {
+					plus.runtime.restart(); // Android 无效果
+				});
+
+				$('#btnOpenUrl').bind('tap', function() {
+					plus.runtime.openURL('http://www.html5plus.org/doc/zh_cn/runtime.html', function(e) {
+						console.log(e.message)
+					}, "");
+				});
+
+				$('#btnOpenFile').bind('tap', function() {
+					plus.runtime.openFile('_www/index.html', {
+						pname: 'com.android.browser',//仅Android平台支持，表示程序的包名
+						// action: '',//程序的操作行为  Android平台上与系统的action值一致；iOS平台为要调用程序的URLScheme格式字符串
+						// newTask: true,//仅 Android 平台支持
+						// extra: '',//仅 Android 平台支持
+					}, function(e) {
+						console.log(e.message);
+					});
+				});
+
+				$('#btnOpenApp').bind('tap', function() {
+					plus.runtime.launchApplication({
+
+					}, function(e) {
+						console.log(e.message);
+					})
+				});
+
+			})
+		</script>
+	</body>
+
+</html>
