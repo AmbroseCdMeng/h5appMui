@@ -37,7 +37,8 @@
         },
         "Speech" : {
             "description" : "管理语音识别插件"
-        }
+        },
+        "Payment" : {}
     },
     "plus" : {
         "splashscreen" : {
@@ -153,7 +154,12 @@
                 "speech" : {
                     "ifly" : {}
                 },
-                "payment" : {}
+                "payment" : {
+                    "alipay" : {},
+                    "weixin" : {
+                        "appid" : "H557D0CD2"
+                    }
+                }
             }
         }
     }

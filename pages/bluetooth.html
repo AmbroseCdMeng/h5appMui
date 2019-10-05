@@ -1,0 +1,242 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">低功耗蓝牙</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-action-back">
+
+			</div>
+
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="btnOpen">初始化蓝牙模块</button>
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="btnClose">关闭蓝牙模块</button>
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="btnStartDiscovery">搜索蓝牙设备</button>
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="btnStopDiscovery">停止搜索蓝牙设备</button>
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="btnOnWatching">监听搜索到新设备事件</button>
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="btnGetState">获取本机蓝牙适配器状态</button>
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="btnGetDevices">获取已搜索到的蓝牙设备</button>
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="btnCreateConnection">连接低功耗蓝牙设备</button>
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="btnCloseConnection">断开低功耗蓝牙设备</button>
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="btnGetConnected">根据uuid获取处于已连接的设备</button>
+
+			<div id="info">
+
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				var deviceId = null;
+
+				$('#btnOpen').on('tap', function() {
+					openBluetooth();
+				});
+				$('#btnClose').on('tap', function() {
+					closeBluetooth();
+				});
+				$('#btnStartDiscovery').on('tap', function() {
+					startBluetoothDiscovery();
+				});
+				$('#btnStopDiscovery').on('tap', function() {
+					stopBluetoothDiscovery();
+				});
+				$('#btnOnWatching').on('tap', function() {
+					onBluetoothFound();
+				});
+				$('#btnGetState').on('tap', function() {
+					getBluetoothAdapterState();
+				});
+				$('#btnGetDevices').on('tap', function() {
+					getBluetoothDevices();
+				});
+				$('#btnCreateConnection').on('tap', function() {
+					createBLEConnection();
+				});
+				$('#btnCloseConnection').on('tap', function() {
+					closeBLEConnection();
+				});
+				$('#btnGetConnected').on('tap', function() {
+					getConnectedBluetooth();
+				});
+
+
+				//初始化蓝牙模块
+				function openBluetooth() {
+					plus.bluetooth.openBluetoothAdapter({
+						success: function(event) {
+							console.log(`open success: ` + JSON.stringfy(event));
+							//搜索蓝牙设备
+							startBluetoothDiscovery();
+						},
+						fail: function(e) {
+							console.log(`open failed: code - ${e.code}; message - ${e.message}`);
+						},
+						complete: function(event) {
+
+						}
+					});
+				}
+
+				//关闭蓝牙模块
+				function closeBluetooth() {
+					plus.bluetooth.closeBluetoothAdapter({
+						success: function(event) {
+							console.log(`close success: ` + JSON.stringfy(event));
+						},
+						fail: function(e) {
+							console.log(`close failed: code - ${e.code}; message - ${e.message}`);
+						},
+						complete: function(event) {
+
+						}
+					});
+				}
+
+				//搜索蓝牙设备
+				function startBluetoothDiscovery() {
+					plus.bluetooth.startBluetoothDevicesDiscovery({
+						// services:[],//要获取设备的uuid列表	可选
+						allowDuplicatesKey: false, //是否允许重复上报同一设备	可选
+						interval: 0, //上报设备的间隔	可选
+						success: function(event) {
+							console.log(`start discovery success: ` + JSON.stringfy(event));
+						}, //可选
+						fail: function(e) {
+							console.log(`start discovery failed: code - ${e.code}; message - ${e.message}`);
+						}, //可选
+						complete: function(event) {
+
+						} //可选
+					})
+				}
+
+				//停止搜索蓝牙设备
+				function stopBluetoothDiscovery() {
+					plus.bluetooth.stopBluetoothDevicesDiscovery({
+						success: function(event) {
+							console.log(`stop discovery success: ` + JSON.stringfy(event));
+						},
+						fail: function(e) {
+							console.log(`stop discovery failed: code - ${e.code}; message - ${e.message}`);
+						},
+						complete: function(event) {
+
+						}
+					})
+				}
+
+				//监听搜索到新设备事件
+				function onBluetoothFound() {
+					plus.bluetooth.onBluetoothDeviceFound(function(event) {
+						var devices = e.devices;
+						console.log('device found: ' + e.length);
+						for (var i in devices) {
+							console.log(i + ': ' + JSON.stringify(devices[i]));
+							// createBLEConnection(devices[i]);
+						}
+					})
+				}
+
+				//获取本机蓝牙适配器状态
+				function getBluetoothAdapterState() {
+					plus.bluetooth.getBluetoothAdapterState({
+						success: function(event) {
+							console.log(`get state success: ` + JSON.stringfy(event));
+						},
+						fail: function(e) {
+							console.log(`get state failed: code - ${e.code}; message - ${e.message}`);
+						},
+						complete: function(event) {
+
+						}
+					});
+				}
+
+				//获取已搜索到的蓝牙设备
+				function getBluetoothDevices() {
+					plus.bluetooth.getBluetoothDevices({
+						success: function(event) {
+							console.log(`get devices success: ` + JSON.stringfy(event));
+						},
+						fail: function(e) {
+							console.log(`get devices failed: code - ${e.code}; message - ${e.message}`);
+						},
+						complete: function(event) {
+
+						}
+					});
+				}
+
+				//连接低功耗蓝牙设备
+				function createBLEConnection(deviceId) {
+					/**
+					 * 如果之前已有搜索某个蓝牙设备，并成功建立连接
+					 * 可直接传入之前搜索的 deviceId 尝试连接该设备，无需进行搜索操作
+					 */
+					plus.bluetooth.createBLEConnection({
+						deviceId: deviceId, // 蓝牙设备的id	必选
+						timeout: 30000, //超时时间 单位 ms 不设置表示不潮湿
+						success: function(event) {
+							console.log(`create connection success: ` + JSON.stringfy(event));
+						},
+						fail: function(e) {
+							console.log(`create connection failed: code - ${e.code}; message - ${e.message}`);
+						},
+						complete: function(event) {
+
+						}
+					});
+				}
+
+				//断开低功耗蓝牙设备
+				function closeBLEConnection(deviceId) {
+					plus.bluetooth.closeBLEConnection({
+						deviceId: deviceId, // 蓝牙设备的id	必选
+						success: function(event) {
+							console.log(`close connection success: ` + JSON.stringfy(event));
+						},
+						fail: function(e) {
+							console.log(`close connection failed: code - ${e.code}; message - ${e.message}`);
+						},
+						complete: function(event) {
+
+						}
+					});
+				}
+
+				//根据uuid获取处于已连接的设备
+				function getConnectedBluetooth(services) {
+					plus.bluetooth.getConnectedBluetoothDevices({
+						services: services, //Array[String]	要获取的设备 uuid 列表	必选
+						success: function(event) {
+							console.log(`get connected success: devices Array _ ` + event.devices);
+						},
+						fail: function(e) {
+							console.log(`get connected connection failed: code - ${e.code}; message - ${e.message}`);
+						},
+						complete: function(event) {
+
+						}
+					})
+				}
+			})
+		</script>
+	</body>
+
+</html>
