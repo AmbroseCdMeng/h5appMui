@@ -38,7 +38,8 @@
         "Speech" : {
             "description" : "管理语音识别插件"
         },
-        "Payment" : {}
+        "Payment" : {},
+        "Bluetooth" : {}
     },
     "plus" : {
         "splashscreen" : {
