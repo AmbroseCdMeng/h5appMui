@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">文件上传</h1>
+		</header>
+
+		<div class="mui-content">
+			<div class="mui-action-back">
+				Uploader 管理网络上传任务，用于从本地上传文件到服务器，并支持跨域访问。<br>
+				Uploader 使用 HTTP 的 Post 方式提交数据，数据格式符合 Multipart/form-data 规范。<br>
+			</div>
+			<br>
+
+			<button type="button" class="mui-btn mui-btn-yellow mui-btn-block" id="btnSelect">选择文件</button>
+			<button type="button" class="mui-btn mui-btn-purple mui-btn-block" id="btnUpload">开始上传</button>
+
+			<input type="hidden" name="" id="hSelectId" value="" />
+
+			<br>
+			<div id="info">
+
+			</div>
+		</div>
+		<script type="text/javascript">
+			/* 后台 */
+			var server = "http://demo.dcloud.net.cn/helloh5/uploader/upload.php";
+			/*  */
+
+			mui.plusReady(function() {
+				$('#btnSelect').bind('tap', function() {
+					plus.gallery.pick(function(file) {
+						plus.io.resolveLocalFileSystemURL(file, function(entry) {
+							$('#hSelectId').val(entry.fullPath);
+						}, function(e) {
+							console.log(e.message);
+						})
+					}, function(e) {
+						console.log(e.message);
+					}, {
+
+					})
+				});
+
+				$('#btnUpload').bind('tap', function() {
+					var filePath = $('#hSelectId').val();
+					var uploader = plus.uploader.createUpload(server, {
+						method: 'POST',
+						//blocksize: 102400, //每次上传的文件块大小 断点续传有效 默认 102400 单位 byte， 为 0 时表示不分块上传
+						//priority: 0, //上传任务优先级 数字越大优先级越高
+						//timeout: 60, //超时时间 (服务器响应请求时间，而非上传总时间) 默认 120 单位 m， 为 0 时表示不超时
+						//retry: 3, //上传任务重试次数
+						//retryInterval: 30, //上传任务重试时间间隔
+					}, function(upload, status) {
+						if (status == 200)
+							$('#info').html(
+								`*********** 上传成功 ***********
+								id: ${upload.id} -- 上传任务的标识 <br>
+								url: ${upload.url} -- 上传文件的服务器地址 <br>
+								state: ${upload.state} -- 任务的状态 <br>
+								options: ${upload.options} -- 上传任务的参数 <br>
+								responseText: ${upload.responseText} -- 上传任务完成后服务器返回的数据 <br>
+								uploadedSize: ${upload.uploadedSize} -- 已完成上传数据的大小 <br>
+								totalSize: ${upload.totalSize} -- 上传数据的总大小`
+							);
+						else
+							console.log(upload.responseText);
+						// alert('上传失败');
+					});
+
+					uploader.addFile(filePath, {
+						//key:new Date().getTime(),//文件键名 默认值为为文件名称 已经存在相同key将导致添加文件失败
+						//name:'',//文件名称
+						//mime:'',//文件类型 默认值自动根据文件后缀名称生成
+					});
+
+					uploader.start();
+				});
+			})
+		</script>
+	</body>
+
+</html>
