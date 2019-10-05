@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">APP本地存储</h1>
+		</header>
+
+		<div class="mui-content">
+			<div class="mui-action-back">
+				Storage 模块管理应用本地数据存储区，用于应用数据的保存和读取。<br>
+				与 localStorage、sessionStorage 的区别在于，前者可以在应用内<strong>跨域操作</strong>，数据存储期是<strong>持久化</strong>的，并且<strong>没有容量限制</strong>。
+			</div>
+			<div class="mui-action-back">
+				<br>
+				应用场景
+				<ul>
+					<li>本地存储</li>
+					<li>用户信息存储</li>
+					<li>图片缓存</li>
+					<li>离线存储</li>
+				</ul>
+				<button type="button" class="mui-btn mui-btn-yellow mui-btn-block" id="btnSetItem">设置数据</button>
+				<button type="button" class="mui-btn mui-btn-blue mui-btn-block" id="btnGetItem">获取数据</button>
+				<button type="button" class="mui-btn mui-btn-red mui-btn-block" id="btnClear">清空数据</button>
+				
+				<div id="info"></div>
+			</div>
+			
+		</div>
+
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				
+				$('#btnSetItem').bind('tap', function() {
+					plus.storage.setItem('userinfo', '{"username":"王富贵"}');
+				});
+				
+				$('#btnGetItem').bind('tap', function() {
+					var info = plus.storage.getItem('userinfo');
+					var infoObj = JSON.parse(info);
+					$('#info').html(infoObj.username);
+				});
+				
+				$('#btnClear').bind('tap', function() {
+					plus.storage.clear();
+				});
+				
+			})
+		</script>
+	</body>
+
+</html>
